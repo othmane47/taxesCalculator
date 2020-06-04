@@ -6,10 +6,21 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
+/**
+ * The type Item decorator.
+ */
 @Data
 public class ItemDecorator implements Item {
+    /**
+     * The Item.
+     */
     protected Item item;
 
+    /**
+     * Instantiates a new Item decorator.
+     *
+     * @param item the item
+     */
     public ItemDecorator(Item item) {
         this.item = item;
     }

@@ -5,9 +5,22 @@ import domain.itemDecorator.*;
 
 import java.math.BigDecimal;
 
+/**
+ * The type Item service.
+ */
 public class ItemService {
 
 
+    /**
+     * Create item item.
+     *
+     * @param category   the category
+     * @param isImported the is imported
+     * @param htPrice    the ht price
+     * @param name       the name
+     * @param quantity   the quantity
+     * @return the item
+     */
     public Item createItem(Category category, boolean isImported, BigDecimal htPrice, String name, int quantity) {
         Item basicItem = BasicItem.builder()
                 .htPrice(htPrice)

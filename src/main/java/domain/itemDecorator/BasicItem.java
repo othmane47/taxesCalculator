@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 
+/**
+ * The type Basic item.
+ */
 @Data
 @Builder
 public class BasicItem implements Item {
