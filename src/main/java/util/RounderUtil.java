@@ -6,7 +6,7 @@ import java.math.RoundingMode;
 /**
  * The type Rounder util.
  */
-public class RounderUtil {
+public final class RounderUtil {
 
     /**
      * Round amount to the nearest five cents big decimal.

@@ -1,28 +1,26 @@
 package util;
 
-import domain.ShoppingBasket;
-import domain.itemDecorator.Item;
+import domain.Product;
+import domain.ShoppingCart;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * The Invoice Printer util.
  */
 @Slf4j
-public abstract class PrinterUtil {
+public class PrinterUtil {
 
-
-    public static String invoicePrinter(ShoppingBasket shoppingBasket) {
+    public static String invoicePrinter(ShoppingCart shoppingCart) {
 
         return " ";
     }
 
-    public static StringBuilder itemPrinter(Item item) {
-        StringBuilder itemLine = new StringBuilder("* ")
-                .append(item.getQuantity())
-                .append(" " + item.getName())
-                .append(" à " + item.getHtPrice().setScale(2) + "€")
-                .append(" : " + item.getTtcPrice().setScale(2) + "€ TTC\n");
-        return itemLine;
+    public static StringBuilder productPrinter(Product product) {
+        return new StringBuilder("* ")
+                .append(product.getQuantity())
+                .append(" " + product.getName())
+                .append(" à " + product.getHtPrice()+ "€")
+                .append(" : " + product.getTtcPrice() + "€ TTC\n");
 
     }
 
