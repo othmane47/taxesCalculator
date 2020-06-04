@@ -2,13 +2,11 @@ package domain;
 
 import lombok.Builder;
 import lombok.Data;
-import util.RounderUtil;
-
 import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * The type Shopping basket.
+ * The type Shopping cart.
  */
 @Data
 @Builder
@@ -17,15 +15,23 @@ public class ShoppingCart {
     private BigDecimal totalTaxes;
     private List<Product> products;
 
-
-
-    public void addItemToCart(Product product) {
+    /**
+     * Add product to cart.
+     *
+     * @param product the product
+     */
+    public void addProductToCart(Product product) {
         products.add(product);
-        this.totalTaxes=this.totalTaxes.add(product.getTaxes());
-        this.totalPrices=this.totalPrices.add(product.getTtcPrice());
+        this.totalTaxes=totalTaxes.add(product.getTaxes());
+        this.totalPrices=totalPrices.add(product.getTtcPrice());
     }
 
-    public void addItemsToCart(List<Product> products){
+    /**
+     * Add products to cart.
+     *
+     * @param products the products
+     */
+    public void addProductsToCart(List<Product> products){
         products.addAll(products);
         BigDecimal taxes=products.stream()
                 .map(Product::getTaxes)
@@ -34,8 +40,8 @@ public class ShoppingCart {
                 .map(Product::getTtcPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        this.totalTaxes= RounderUtil.roundAmountToTheNearestFiveCents(this.totalTaxes.add(taxes));
-        this.totalPrices=RounderUtil.roundAmountToTheNearestFiveCents(this.totalPrices.add(price));
+        this.totalTaxes= totalTaxes.add(taxes);
+        this.totalPrices=totalPrices.add(price);
     }
 
 

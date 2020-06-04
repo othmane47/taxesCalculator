@@ -9,20 +9,36 @@ import java.math.BigDecimal;
 import java.util.List;
 
 
+/**
+ * The type Shopping cart service.
+ */
 @Slf4j
 public class ShoppingCartService {
 
+    /**
+     * Creat shopping cart shopping cart.
+     *
+     * @param products the products
+     * @return the shopping cart
+     */
     public ShoppingCart creatShoppingCart(List<Product> products){
         ShoppingCart shoppingCart=ShoppingCart.builder()
                 .totalPrices(BigDecimal.ZERO)
                 .totalTaxes(BigDecimal.ZERO)
                 .build();
-        shoppingCart.addItemsToCart(products);
+        shoppingCart.addProductsToCart(products);
         return shoppingCart;
     }
 
+    /**
+     * Add product to cart shopping cart.
+     *
+     * @param shoppingCart the shopping cart
+     * @param product      the product
+     * @return the shopping cart
+     */
     public ShoppingCart addProductToCart(ShoppingCart shoppingCart, Product product) {
-        shoppingCart.addItemToCart(product);
+        shoppingCart.addProductToCart(product);
         return shoppingCart;
     }
 

@@ -21,16 +21,28 @@ public enum Category {
      */
     GENERIC("Generic",20);
 
-    public String label;
-    public int tax;
+    private String label;
+    private int tax;
 
     Category(String label, int tax) {
         this.label=label;
         this.tax=tax;
     }
+
+    /**
+     * Gets label.
+     *
+     * @return the label
+     */
     public String getLabel() {
         return label;
     }
+
+    /**
+     * Gets tax.
+     *
+     * @return the tax
+     */
     public int getTax() {
         return tax;
     }
