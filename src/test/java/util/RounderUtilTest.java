@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class RounderUtilTest {
 
     /**
-     * Should round 0 99 to 1 00 cents.
+     * Should round 0.99 to 1.00 cents.
      */
     @Test
     public void shouldRound0_99To1_00Cents() {
@@ -20,7 +20,7 @@ class RounderUtilTest {
     }
 
     /**
-     * Should not round 1 00.
+     * Should not round 1.00.
      */
     @Test
     public void shouldNotRound1_00() {
@@ -29,7 +29,7 @@ class RounderUtilTest {
 
 
     /**
-     * Should round 1 01 to 1 05 cents.
+     * Should round 1.01 to 1.05 cents.
      */
     @Test
     public void shouldRound1_01To1_05Cents() {

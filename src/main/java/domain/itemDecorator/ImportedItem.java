@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import util.RounderUtil;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 /**
  * The type Imported item.
@@ -24,12 +23,20 @@ public class ImportedItem extends ItemDecorator {
     public ImportedItem(Item item) {
         super(item);
     }
+
     @Override
     public BigDecimal getTaxes() {
-        BigDecimal tax=BigDecimal.valueOf(IMPORTED_TAX * item.getHtPrice().doubleValue() / 100);
-
+        BigDecimal tax = BigDecimal.valueOf(IMPORTED_TAX * item.getHtPrice().doubleValue() / 100);
         return item.getTaxes()
                 .add(RounderUtil.roundAmountToTheNearestFiveCents(tax));
+    }
+
+    @Override
+    public BigDecimal getTtcPrice() {
+        BigDecimal ttcPrice = BigDecimal.valueOf(item.getQuantity())
+                .multiply(getTaxes()
+                        .add(item.getHtPrice()));
+        return RounderUtil.roundAmountToTheNearestFiveCents(ttcPrice);
 
     }
 }

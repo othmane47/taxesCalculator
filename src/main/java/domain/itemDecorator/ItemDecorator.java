@@ -3,8 +3,6 @@ package domain.itemDecorator;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 
 /**
  * The type Item decorator.
@@ -26,7 +24,9 @@ public class ItemDecorator implements Item {
     }
 
     @Override
-    public int getQuantity() {return item.getQuantity();}
+    public int getQuantity() {
+        return item.getQuantity();
+    }
 
     @Override
     public BigDecimal getTaxes() {
@@ -36,5 +36,15 @@ public class ItemDecorator implements Item {
     @Override
     public BigDecimal getHtPrice() {
         return item.getHtPrice();
+    }
+
+    @Override
+    public BigDecimal getTtcPrice() {
+        return item.getTtcPrice();
+    }
+
+    @Override
+    public String getName() {
+        return item.getName();
     }
 }

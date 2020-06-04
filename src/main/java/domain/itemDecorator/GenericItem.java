@@ -3,7 +3,6 @@ package domain.itemDecorator;
 import util.RounderUtil;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 /**
  * The type Generic item.
@@ -25,10 +24,19 @@ public class GenericItem extends ItemDecorator {
 
     @Override
     public BigDecimal getTaxes() {
-        BigDecimal tax=BigDecimal.valueOf(GENERIC_TAX * item.getHtPrice().doubleValue() / 100);
+        BigDecimal tax = BigDecimal.valueOf(GENERIC_TAX * item.getHtPrice().doubleValue() / 100);
 
         return item.getTaxes()
                 .add(RounderUtil.roundAmountToTheNearestFiveCents(tax));
+    }
+
+    @Override
+    public BigDecimal getTtcPrice() {
+        BigDecimal ttcPrice = BigDecimal.valueOf(item.getQuantity())
+                .multiply(getTaxes()
+                        .add(item.getHtPrice()));
+        return RounderUtil.roundAmountToTheNearestFiveCents(ttcPrice);
+
     }
 
 }

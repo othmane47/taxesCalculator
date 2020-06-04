@@ -127,5 +127,12 @@ class ItemServiceTest {
         assertThat(bookItem.getTaxes().doubleValue()).isEqualTo(0.25);
     }
 
+    @Test
+    public void shouldGetBookTtcPrice() {
+        Item bookItem = itemService.createItem(Category.BOOK, false, BigDecimal.valueOf(10), "livre", 2);
+        assertThat(bookItem.getTtcPrice().doubleValue()).isEqualTo(22.0);
+
+    }
+
 
 }

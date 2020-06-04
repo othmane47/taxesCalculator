@@ -28,4 +28,18 @@ public interface Item {
      */
     BigDecimal getHtPrice();
 
+    /**
+     * Gets ttc price.
+     *
+     * @return the ht price
+     */
+    BigDecimal getTtcPrice();
+
+    /**
+     * Gets the item name.
+     *
+     * @return the name
+     */
+    String getName();
+
 }
