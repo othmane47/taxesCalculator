@@ -160,7 +160,7 @@ class ProductServiceTest {
     @Test
     public void shouldGetProductLine() throws IllegalPriceException, IllegalQuantityException {
 
-        String expected = ("* 2 livres à 12.49€ : 27,50€ TTC\n");
+        String expected = ("* 2 livres à 12.49€ : 27.50€ TTC\n");
         Product bookProduct = productService.createProduct(Category.BOOK, false, BigDecimal.valueOf(12.49), "livres", 2);
         assertThat(bookProduct.productPrinter()).isEqualToIgnoringCase(expected);
     }

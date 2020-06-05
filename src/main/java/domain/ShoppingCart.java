@@ -55,8 +55,8 @@ public class ShoppingCart {
     public String invoicePrinter() {
         StringBuilder invoice = new StringBuilder("\n================ Invoice ================\n");
         products.forEach(item -> invoice.append(item.productPrinter()));
-        invoice.append("\nMontant des taxes : " + totalTaxes);
-        invoice.append("\nTotal : " + totalPrices);
+        invoice.append("\nMontant des taxes : " + totalTaxes + "€");
+        invoice.append("\nTotal : " + totalPrices + "€");
         log.info(invoice.toString());
         return invoice.toString();
     }

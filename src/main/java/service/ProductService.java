@@ -31,7 +31,7 @@ public class ProductService {
             throw new IllegalQuantityException("Quantity should be higher than 1");
         Product product = Product.builder()
                 .category(category)
-                .htPrice(htPrice)
+                .htPrice(htPrice.setScale(2))
                 .isImported(isImported)
                 .name(name)
                 .quantity(quantity)

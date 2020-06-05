@@ -28,14 +28,15 @@ public class Product {
      * @return the big decimal
      */
     public BigDecimal calculateTaxes() {
-        BigDecimal tax = RounderUtil.roundAmountToTheNearestFiveCents(htPrice.multiply(BigDecimal.valueOf(category.getTax())
-                .divide(BigDecimal.valueOf(100))));
+        BigDecimal tax = htPrice.multiply(BigDecimal.valueOf(category.getTax())
+                .divide(BigDecimal.valueOf(100)));
 
         if (isImported)
-            tax = tax.add(RounderUtil.roundAmountToTheNearestFiveCents(htPrice.multiply(BigDecimal.valueOf(5)
-                    .divide(BigDecimal.valueOf(100)))));
+            tax = tax.add(htPrice.multiply(BigDecimal.valueOf(5)
+                    .divide(BigDecimal.valueOf(100))));
 
-        this.taxes = tax.multiply(BigDecimal.valueOf(quantity));
+        this.taxes = RounderUtil.roundAmountToTheNearestFiveCents(tax.multiply(BigDecimal.valueOf(quantity)));
+        log.info(this.taxes.toString());
         return this.taxes;
     }
 
@@ -45,8 +46,7 @@ public class Product {
      * @return the big decimal
      */
     public BigDecimal calculateTtcPrice() {
-        this.ttcPrice = taxes.add(htPrice
-                .multiply(BigDecimal.valueOf(quantity)));
+        this.ttcPrice = RounderUtil.roundAmountToTheNearestFiveCents(taxes.add(htPrice.multiply(BigDecimal.valueOf(quantity)))).setScale(2);
         return this.ttcPrice;
     }
 

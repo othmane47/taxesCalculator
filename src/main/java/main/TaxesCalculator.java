@@ -37,7 +37,7 @@ public class TaxesCalculator {
 
         ShoppingCart shoppingCart3 = shoppingCartService.creatShoppingCart();
         shoppingCartService.addProductToCart(shoppingCart3, productService.createProduct(Category.GENERIC, true, BigDecimal.valueOf(27.99), "flacons de parfum", 2));
-        shoppingCartService.addProductToCart(shoppingCart3, productService.createProduct(Category.GENERIC, false, BigDecimal.valueOf(22.8), "flacon de parfum", 1));
+        shoppingCartService.addProductToCart(shoppingCart3, productService.createProduct(Category.GENERIC, false, BigDecimal.valueOf(18.99), "flacon de parfum", 1));
         shoppingCartService.addProductToCart(shoppingCart3, productService.createProduct(Category.MEDICAL, false, BigDecimal.valueOf(9.75), "boîtes de pilules contre la migraine", 3));
         shoppingCartService.addProductToCart(shoppingCart3, productService.createProduct(Category.FOOD, true, BigDecimal.valueOf(11.25), "boîtes de chocolats", 2));
         shoppingCart3.invoicePrinter();

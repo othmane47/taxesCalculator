@@ -45,9 +45,9 @@ class ShoppingCartServiceTest {
      */
     @BeforeEach
     public void init() throws IllegalPriceException, IllegalQuantityException {
-        product1 = productService.createProduct(Category.BOOK, false, BigDecimal.valueOf(12.49), "roman", 2);
-        product2 = productService.createProduct(Category.GENERIC, false, BigDecimal.valueOf(14.99), "CD", 1);
-        product3 = productService.createProduct(Category.FOOD, false, BigDecimal.valueOf(0.85), "chocolat", 3);
+        product1 = productService.createProduct(Category.FOOD, true, BigDecimal.valueOf(10), "boîtes de chocolats", 2);
+        product2 = productService.createProduct(Category.GENERIC, true, BigDecimal.valueOf(47.50), "flacons de parfum", 3);
+        product3 = productService.createProduct(Category.BOOK, false, BigDecimal.valueOf(0.85), "livres", 3);
         shoppingCart = ShoppingCart.builder()
                 .products(new ArrayList<>())
                 .totalTaxes(BigDecimal.ZERO)
@@ -81,9 +81,7 @@ class ShoppingCartServiceTest {
 
         shoppingCartService.addProductToCart(shoppingCart, product1);
         shoppingCartService.addProductToCart(shoppingCart, product2);
-        shoppingCartService.addProductToCart(shoppingCart, product3);
-
-        assertThat(shoppingCart.getTotalTaxes()).isEqualTo(BigDecimal.valueOf(5.53).setScale(2));
+        assertThat(shoppingCart.getTotalTaxes()).isEqualTo(BigDecimal.valueOf(36.65));
     }
 
     /**
@@ -94,9 +92,8 @@ class ShoppingCartServiceTest {
 
         shoppingCartService.addProductToCart(shoppingCart, product1);
         shoppingCartService.addProductToCart(shoppingCart, product2);
-        shoppingCartService.addProductToCart(shoppingCart, product3);
 
-        assertThat(shoppingCart.getTotalPrices()).isEqualTo(BigDecimal.valueOf(48.05).setScale(2));
+        assertThat(shoppingCart.getTotalPrices()).isEqualTo(BigDecimal.valueOf(199.15));
 
     }
 
@@ -105,16 +102,13 @@ class ShoppingCartServiceTest {
      */
     @Test
     void invoicePrinter() {
-        String expected = ("\n================ Invoice ================\n*" +
-                "2 livres à 12.49€ : 27,5€ TTC\n" +
-                "* 1 CD musical à 14.99€ : 18€ TTC\n" +
-                "* 3 barres de chocolat à 0.85€ : 2.55€ TTC\n" +
-                "\n" +
-                "Montant des taxes : 5.53€\n" +
-                "Total : 48.05€");
+        String expected = ("\n================ Invoice ================\n" +
+                "* 2 boîtes de chocolats importé à 10.00€ : 21.00€ TTC\n" +
+                "* 3 flacons de parfum importé à 47.50€ : 178.15€ TTC\n" +
+                "\nMontant des taxes : 36.65€" +
+                "\nTotal : 199.15€");
         shoppingCartService.addProductToCart(shoppingCart, product1);
         shoppingCartService.addProductToCart(shoppingCart, product2);
-        shoppingCartService.addProductToCart(shoppingCart, product3);
         assertThat(shoppingCart.invoicePrinter()).isEqualToIgnoringCase(expected);
     }
 
