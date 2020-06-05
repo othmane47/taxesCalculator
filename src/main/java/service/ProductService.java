@@ -25,9 +25,9 @@ public class ProductService {
      * @throws IllegalQuantityException the illegal quantity exception
      */
     public Product createProduct(Category category, boolean isImported, BigDecimal htPrice, String name, int quantity) throws IllegalPriceException, IllegalQuantityException {
-        if(htPrice.compareTo(BigDecimal.ZERO) < 0)
-            throw new IllegalPriceException("Price shoud be higher than 0€");
-        if(quantity< 1)
+        if (htPrice.compareTo(BigDecimal.ZERO) < 0)
+            throw new IllegalPriceException("Price should be higher than 0€");
+        if (quantity < 1)
             throw new IllegalQuantityException("Quantity should be higher than 1");
         Product product = Product.builder()
                 .category(category)

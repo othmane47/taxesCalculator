@@ -7,26 +7,26 @@ public enum Category {
     /**
      * Book category.
      */
-    BOOK("Book",10),
+    BOOK("Book", 10),
     /**
      * Food category.
      */
-    FOOD("Food",0),
+    FOOD("Food", 0),
     /**
      * Medical category.
      */
-    MEDICAL("Medical",0),
+    MEDICAL("Medical", 0),
     /**
      * Generic category.
      */
-    GENERIC("Generic",20);
+    GENERIC("Generic", 20);
 
     private String label;
     private int tax;
 
     Category(String label, int tax) {
-        this.label=label;
-        this.tax=tax;
+        this.label = label;
+        this.tax = tax;
     }
 
     /**

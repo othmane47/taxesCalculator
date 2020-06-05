@@ -9,7 +9,7 @@ public class IllegalPriceException extends Exception {
      *
      * @param errorMessage the error message
      */
-    public IllegalPriceException(String errorMessage){
+    public IllegalPriceException(String errorMessage) {
         super(errorMessage);
     }
 }

@@ -8,6 +8,8 @@ import java.math.RoundingMode;
  */
 public final class RounderUtil {
 
+    private RounderUtil() {
+    }
 
     /**
      * Round amount to the nearest five cents big decimal.

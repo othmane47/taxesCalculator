@@ -6,6 +6,7 @@ import domain.ShoppingCart;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,16 +16,31 @@ import java.util.List;
 @Slf4j
 public class ShoppingCartService {
 
+
+    /**
+     * Creat shopping cart shopping cart.
+     *
+     * @return the shopping cart
+     */
+    public ShoppingCart creatShoppingCart() {
+        return ShoppingCart.builder()
+                .totalPrices(BigDecimal.ZERO)
+                .totalTaxes(BigDecimal.ZERO)
+                .products(new ArrayList<>())
+                .build();
+    }
+
     /**
      * Creat shopping cart shopping cart.
      *
      * @param products the products
      * @return the shopping cart
      */
-    public ShoppingCart creatShoppingCart(List<Product> products){
-        ShoppingCart shoppingCart=ShoppingCart.builder()
+    public ShoppingCart creatShoppingCart(List<Product> products) {
+        ShoppingCart shoppingCart = ShoppingCart.builder()
                 .totalPrices(BigDecimal.ZERO)
                 .totalTaxes(BigDecimal.ZERO)
+                .products(new ArrayList<>())
                 .build();
         shoppingCart.addProductsToCart(products);
         return shoppingCart;

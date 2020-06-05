@@ -44,15 +44,26 @@ public class Product {
      *
      * @return the big decimal
      */
-    public BigDecimal calculateTtcPrice(){
-
-        log.info("htprice"+htPrice);
-        log.info("taxes"+taxes);
-        this.ttcPrice=taxes.add(htPrice
+    public BigDecimal calculateTtcPrice() {
+        this.ttcPrice = taxes.add(htPrice
                 .multiply(BigDecimal.valueOf(quantity)));
-        log.info("ttcprice"+ttcPrice);
-
         return this.ttcPrice;
+    }
+
+    /**
+     * Product printer string builder.
+     *
+     * @return the string builder
+     */
+    public StringBuilder productPrinter() {
+
+        return new StringBuilder("* ")
+                .append(quantity)
+                .append(" " + name)
+                .append(isImported ? " importé" : "")
+                .append(" à " + htPrice + "€")
+                .append(" : " + ttcPrice + "€ TTC\n");
+
     }
 
 }
