@@ -1,7 +1,8 @@
 package service;
 
-import domain.Category;
 import domain.Product;
+import enums.CategoryEnum;
+import enums.OriginEnum;
 import exception.IllegalPriceException;
 import exception.IllegalQuantityException;
 import lombok.extern.slf4j.Slf4j;
@@ -29,27 +30,13 @@ class ProductServiceTest {
     }
 
     /**
-     * Should throw exception when create product with quantity -1.
-     *
-     * @throws IllegalPriceException    the illegal price exception
-     * @throws IllegalQuantityException the illegal quantity exception
-     */
-    @Test
-    public void shouldThrowQuantityException() throws IllegalPriceException, IllegalQuantityException {
-        assertThatThrownBy(() -> productService.createProduct(Category.FOOD, false, BigDecimal.valueOf(1), "chocolat", -1))
-                .isInstanceOf(IllegalQuantityException.class)
-                .hasMessageContaining("Quantity should be higher than 1");
-    }
-
-    /**
      * Should throw exception when create product with price -10.
      *
-     * @throws IllegalPriceException    the illegal price exception
-     * @throws IllegalQuantityException the illegal quantity exception
+     * @throws IllegalPriceException the illegal price exception
      */
     @Test
-    public void shouldThrowPriceException() throws IllegalPriceException, IllegalQuantityException {
-        assertThatThrownBy(() -> productService.createProduct(Category.FOOD, false, BigDecimal.valueOf(-100), "chocolat", 1))
+    public void shouldThrowPriceException() throws IllegalPriceException {
+        assertThatThrownBy(() -> productService.createProduct(CategoryEnum.FOOD, OriginEnum.LOCAL, BigDecimal.valueOf(-100), "chocolat"))
                 .isInstanceOf(IllegalPriceException.class)
                 .hasMessageContaining("Price should be higher than 0€");
     }
@@ -63,7 +50,7 @@ class ProductServiceTest {
      */
     @Test
     public void shouldGetFoodTax() throws IllegalPriceException, IllegalQuantityException {
-        Product foodProduct = productService.createProduct(Category.FOOD, false, BigDecimal.valueOf(1), "chocolat", 1);
+        Product foodProduct = productService.createProduct(CategoryEnum.FOOD, OriginEnum.LOCAL, BigDecimal.valueOf(1), "chocolat");
         assertThat(foodProduct.calculateTaxes().doubleValue()).isEqualTo(0);
     }
 
@@ -75,7 +62,7 @@ class ProductServiceTest {
      */
     @Test
     public void shouldGetImportedFoodTax() throws IllegalPriceException, IllegalQuantityException {
-        Product foodProduct = productService.createProduct(Category.FOOD, true, BigDecimal.valueOf(1), "chocolat", 1);
+        Product foodProduct = productService.createProduct(CategoryEnum.FOOD, OriginEnum.IMPORTED, BigDecimal.valueOf(1), "chocolat");
         assertThat(foodProduct.calculateTaxes().doubleValue()).isEqualTo(0.05);
     }
 
@@ -87,7 +74,7 @@ class ProductServiceTest {
      */
     @Test
     public void shouldGetBookTax() throws IllegalPriceException, IllegalQuantityException {
-        Product bookProduct = productService.createProduct(Category.BOOK, false, BigDecimal.valueOf(1), "roman", 1);
+        Product bookProduct = productService.createProduct(CategoryEnum.BOOK, OriginEnum.LOCAL, BigDecimal.valueOf(1), "roman");
         assertThat(bookProduct.calculateTaxes().doubleValue()).isEqualTo(0.10);
     }
 
@@ -99,7 +86,7 @@ class ProductServiceTest {
      */
     @Test
     public void shouldGetImportedBookTax() throws IllegalPriceException, IllegalQuantityException {
-        Product bookProduct = productService.createProduct(Category.BOOK, true, BigDecimal.valueOf(1), "roman", 1);
+        Product bookProduct = productService.createProduct(CategoryEnum.BOOK, OriginEnum.IMPORTED, BigDecimal.valueOf(1), "roman");
         assertThat(bookProduct.calculateTaxes().doubleValue()).isEqualTo(0.15);
     }
 
@@ -111,7 +98,7 @@ class ProductServiceTest {
      */
     @Test
     public void shouldGetGenericTax() throws IllegalPriceException, IllegalQuantityException {
-        Product genericProduct = productService.createProduct(Category.GENERIC, false, BigDecimal.valueOf(1), "parfum", 1);
+        Product genericProduct = productService.createProduct(CategoryEnum.GENERIC, OriginEnum.LOCAL, BigDecimal.valueOf(1), "parfum");
         assertThat(genericProduct.calculateTaxes().doubleValue()).isEqualTo(0.20);
     }
 
@@ -123,7 +110,7 @@ class ProductServiceTest {
      */
     @Test
     public void shouldGetImportedGenericTax() throws IllegalPriceException, IllegalQuantityException {
-        Product genericProduct = productService.createProduct(Category.GENERIC, true, BigDecimal.valueOf(1), "parfum", 1);
+        Product genericProduct = productService.createProduct(CategoryEnum.GENERIC, OriginEnum.IMPORTED, BigDecimal.valueOf(1), "parfum");
         assertThat(genericProduct.calculateTaxes().doubleValue()).isEqualTo(0.25);
     }
 
@@ -135,8 +122,8 @@ class ProductServiceTest {
      */
     @Test
     public void shouldGetBookTtcPrice() throws IllegalPriceException, IllegalQuantityException {
-        Product bookProduct = productService.createProduct(Category.BOOK, false, BigDecimal.valueOf(10), "livre", 2);
-        assertThat(bookProduct.calculateTtcPrice().doubleValue()).isEqualTo(22.0);
+        Product bookProduct = productService.createProduct(CategoryEnum.BOOK, OriginEnum.LOCAL, BigDecimal.valueOf(10), "livre");
+        assertThat(bookProduct.calculateTtcPrice().doubleValue()).isEqualTo(11.0);
     }
 
     /**
@@ -147,22 +134,8 @@ class ProductServiceTest {
      */
     @Test
     public void shouldGetImportedBookTtcPrice() throws IllegalPriceException, IllegalQuantityException {
-        Product bookProduct = productService.createProduct(Category.BOOK, true, BigDecimal.valueOf(10), "livre", 2);
-        assertThat(bookProduct.calculateTtcPrice().doubleValue()).isEqualTo(23);
-    }
-
-    /**
-     * Should get product line printed in the invoice.
-     *
-     * @throws IllegalPriceException    the illegal price exception
-     * @throws IllegalQuantityException the illegal quantity exception
-     */
-    @Test
-    public void shouldGetProductLine() throws IllegalPriceException, IllegalQuantityException {
-
-        String expected = ("* 2 livres à 12.49€ : 27.50€ TTC\n");
-        Product bookProduct = productService.createProduct(Category.BOOK, false, BigDecimal.valueOf(12.49), "livres", 2);
-        assertThat(bookProduct.productPrinter()).isEqualToIgnoringCase(expected);
+        Product bookProduct = productService.createProduct(CategoryEnum.BOOK, OriginEnum.IMPORTED, BigDecimal.valueOf(10), "livre");
+        assertThat(bookProduct.calculateTtcPrice().doubleValue()).isEqualTo(11.5);
     }
 
 

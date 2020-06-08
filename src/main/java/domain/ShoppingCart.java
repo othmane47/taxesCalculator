@@ -16,33 +16,32 @@ import java.util.List;
 public class ShoppingCart {
     private BigDecimal totalPrices;
     private BigDecimal totalTaxes;
-    private List<Product> products;
+    private List<Item> items;
 
     /**
-     * Add product to cart.
+     * Add item to cart.
      *
-     * @param product the product
+     * @param item the item
      */
-    public void addProductToCart(Product product) {
-        products.add(product);
-        this.totalTaxes = totalTaxes.add(product.getTaxes());
-        this.totalPrices = totalPrices.add(product.getTtcPrice());
+    public void addItemToCart(Item item) {
+        items.add(item);
+        this.totalTaxes = totalTaxes.add(item.getTaxes());
+        this.totalPrices = totalPrices.add(item.getTtcPrice());
     }
 
     /**
-     * Add products to cart.
+     * Add items to cart.
      *
-     * @param products the products
+     * @param items the items
      */
-    public void addProductsToCart(List<Product> products) {
-        this.products.addAll(products);
-        BigDecimal taxes = products.stream()
-                .map(Product::getTaxes)
+    public void addItemsToCart(List<Item> items) {
+        this.items.addAll(items);
+        BigDecimal taxes = items.stream()
+                .map(Item::getTaxes)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        BigDecimal price = products.stream()
-                .map(Product::getTtcPrice)
+        BigDecimal price = items.stream()
+                .map(Item::getTtcPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-
         this.totalTaxes = totalTaxes.add(taxes);
         this.totalPrices = totalPrices.add(price);
     }
@@ -54,7 +53,7 @@ public class ShoppingCart {
      */
     public String invoicePrinter() {
         StringBuilder invoice = new StringBuilder("\n================ Invoice ================\n");
-        products.forEach(item -> invoice.append(item.productPrinter()));
+        items.forEach(item -> invoice.append(item.itemPrinter()));
         invoice.append("\nMontant des taxes : " + totalTaxes + "€");
         invoice.append("\nTotal : " + totalPrices + "€");
         log.info(invoice.toString());

@@ -6,11 +6,9 @@ package exception;
 public class IllegalQuantityException extends Exception {
     /**
      * Instantiates a new Illegal quantity exception.
-     *
-     * @param errorMessage the error message
      */
-    public IllegalQuantityException(String errorMessage) {
-        super(errorMessage);
+    public IllegalQuantityException() {
+        super("Quantity should be higher than 1");
     }
 
 }

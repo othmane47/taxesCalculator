@@ -1,7 +1,7 @@
 package service;
 
 
-import domain.Product;
+import domain.Item;
 import domain.ShoppingCart;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,35 +26,31 @@ public class ShoppingCartService {
         return ShoppingCart.builder()
                 .totalPrices(BigDecimal.ZERO)
                 .totalTaxes(BigDecimal.ZERO)
-                .products(new ArrayList<>())
+                .items(new ArrayList<>())
                 .build();
     }
 
     /**
      * Creat shopping cart shopping cart.
      *
-     * @param products the products
+     * @param items the items
      * @return the shopping cart
      */
-    public ShoppingCart creatShoppingCart(List<Product> products) {
-        ShoppingCart shoppingCart = ShoppingCart.builder()
-                .totalPrices(BigDecimal.ZERO)
-                .totalTaxes(BigDecimal.ZERO)
-                .products(new ArrayList<>())
-                .build();
-        shoppingCart.addProductsToCart(products);
+    public ShoppingCart creatShoppingCart(List<Item> items) {
+        ShoppingCart shoppingCart = creatShoppingCart();
+        shoppingCart.addItemsToCart(items);
         return shoppingCart;
     }
 
     /**
-     * Add product to cart shopping cart.
+     * Add item to cart shopping cart.
      *
      * @param shoppingCart the shopping cart
-     * @param product      the product
+     * @param item         the item
      * @return the shopping cart
      */
-    public ShoppingCart addProductToCart(ShoppingCart shoppingCart, Product product) {
-        shoppingCart.addProductToCart(product);
+    public ShoppingCart addItemToCart(ShoppingCart shoppingCart, Item item) {
+        shoppingCart.addItemToCart(item);
         return shoppingCart;
     }
 

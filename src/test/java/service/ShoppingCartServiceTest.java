@@ -1,8 +1,10 @@
 package service;
 
-import domain.Category;
+import domain.Item;
 import domain.Product;
 import domain.ShoppingCart;
+import enums.CategoryEnum;
+import enums.OriginEnum;
 import exception.IllegalPriceException;
 import exception.IllegalQuantityException;
 import org.junit.jupiter.api.BeforeAll;
@@ -23,7 +25,9 @@ class ShoppingCartServiceTest {
 
     private static ShoppingCartService shoppingCartService;
     private static ProductService productService;
+    private static ItemService itemService;
     private static Product product1, product2, product3;
+    private static Item item1, item2;
     private static ShoppingCart shoppingCart;
 
 
@@ -34,6 +38,7 @@ class ShoppingCartServiceTest {
     public static void setUp() {
         shoppingCartService = new ShoppingCartService();
         productService = new ProductService();
+        itemService = new ItemService();
 
     }
 
@@ -45,11 +50,13 @@ class ShoppingCartServiceTest {
      */
     @BeforeEach
     public void init() throws IllegalPriceException, IllegalQuantityException {
-        product1 = productService.createProduct(Category.FOOD, true, BigDecimal.valueOf(10), "boîtes de chocolats", 2);
-        product2 = productService.createProduct(Category.GENERIC, true, BigDecimal.valueOf(47.50), "flacons de parfum", 3);
-        product3 = productService.createProduct(Category.BOOK, false, BigDecimal.valueOf(0.85), "livres", 3);
+        product1 = productService.createProduct(CategoryEnum.FOOD, OriginEnum.IMPORTED, BigDecimal.valueOf(10), "boîtes de chocolats");
+        product2 = productService.createProduct(CategoryEnum.GENERIC, OriginEnum.IMPORTED, BigDecimal.valueOf(47.50), "flacons de parfum");
+        product3 = productService.createProduct(CategoryEnum.BOOK, OriginEnum.LOCAL, BigDecimal.valueOf(0.85), "livres");
+        item1 = itemService.createItem(product1, 2);
+        item2 = itemService.createItem(product2, 3);
         shoppingCart = ShoppingCart.builder()
-                .products(new ArrayList<>())
+                .items(new ArrayList<>())
                 .totalTaxes(BigDecimal.ZERO)
                 .totalPrices(BigDecimal.ZERO)
                 .build();
@@ -69,9 +76,16 @@ class ShoppingCartServiceTest {
      */
     @Test
     public void shouldCreateShoppingCartWithList() {
-        List<Product> products = Arrays.asList(product1, product2, product3);
-        assertThat(shoppingCartService.creatShoppingCart(products).getProducts().size()).isEqualTo(3);
+        List<Item> items = Arrays.asList(item1, item2);
+        assertThat(shoppingCartService.creatShoppingCart(items).getItems().size()).isEqualTo(2);
     }
+
+    @Test
+    public void shouldAddItemToList() {
+        shoppingCart.addItemToCart(item1);
+        assertThat(shoppingCart.getItems().size()).isEqualTo(1);
+    }
+
 
     /**
      * Should get cart total tax.
@@ -79,8 +93,8 @@ class ShoppingCartServiceTest {
     @Test
     public void shouldGetCartTotalTax() {
 
-        shoppingCartService.addProductToCart(shoppingCart, product1);
-        shoppingCartService.addProductToCart(shoppingCart, product2);
+        shoppingCartService.addItemToCart(shoppingCart, item1);
+        shoppingCartService.addItemToCart(shoppingCart, item2);
         assertThat(shoppingCart.getTotalTaxes()).isEqualTo(BigDecimal.valueOf(36.65));
     }
 
@@ -90,8 +104,8 @@ class ShoppingCartServiceTest {
     @Test
     public void shouldGetBasketTotalPrice() {
 
-        shoppingCartService.addProductToCart(shoppingCart, product1);
-        shoppingCartService.addProductToCart(shoppingCart, product2);
+        shoppingCartService.addItemToCart(shoppingCart, item1);
+        shoppingCartService.addItemToCart(shoppingCart, item2);
 
         assertThat(shoppingCart.getTotalPrices()).isEqualTo(BigDecimal.valueOf(199.15));
 
@@ -107,8 +121,8 @@ class ShoppingCartServiceTest {
                 "* 3 flacons de parfum importé à 47.50€ : 178.15€ TTC\n" +
                 "\nMontant des taxes : 36.65€" +
                 "\nTotal : 199.15€");
-        shoppingCartService.addProductToCart(shoppingCart, product1);
-        shoppingCartService.addProductToCart(shoppingCart, product2);
+        shoppingCartService.addItemToCart(shoppingCart, item1);
+        shoppingCartService.addItemToCart(shoppingCart, item2);
         assertThat(shoppingCart.invoicePrinter()).isEqualToIgnoringCase(expected);
     }
 

@@ -1,9 +1,11 @@
 package domain;
 
+import enums.CategoryEnum;
+import enums.OriginEnum;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import util.RounderUtil;
 
 import java.math.BigDecimal;
 
@@ -11,16 +13,17 @@ import java.math.BigDecimal;
  * The type Product.
  */
 @Data
-@Builder
 @Slf4j
+@Builder
 public class Product {
-    private int quantity;
     private String name;
-    private Category category;
+    private CategoryEnum categoryEnum;
+    private OriginEnum originEnum;
     private BigDecimal htPrice;
-    private BigDecimal ttcPrice;
-    private BigDecimal taxes;
-    private boolean isImported;
+    @Getter(lazy = true)
+    private final BigDecimal taxes = calculateTaxes();
+    @Getter(lazy = true)
+    private final BigDecimal ttcPrice = calculateTtcPrice();
 
     /**
      * Calculate taxes big decimal.
@@ -28,16 +31,7 @@ public class Product {
      * @return the big decimal
      */
     public BigDecimal calculateTaxes() {
-        BigDecimal tax = htPrice.multiply(BigDecimal.valueOf(category.getTax())
-                .divide(BigDecimal.valueOf(100)));
-
-        if (isImported)
-            tax = tax.add(htPrice.multiply(BigDecimal.valueOf(5)
-                    .divide(BigDecimal.valueOf(100))));
-
-        this.taxes = RounderUtil.roundAmountToTheNearestFiveCents(tax.multiply(BigDecimal.valueOf(quantity)));
-        log.info(this.taxes.toString());
-        return this.taxes;
+        return htPrice.multiply(categoryEnum.getTax().add(originEnum.getTax()));
     }
 
     /**
@@ -46,24 +40,8 @@ public class Product {
      * @return the big decimal
      */
     public BigDecimal calculateTtcPrice() {
-        this.ttcPrice = RounderUtil.roundAmountToTheNearestFiveCents(taxes.add(htPrice.multiply(BigDecimal.valueOf(quantity)))).setScale(2);
-        return this.ttcPrice;
+        return getTaxes().add(htPrice);
     }
 
-    /**
-     * Product printer string builder.
-     *
-     * @return the string builder
-     */
-    public StringBuilder productPrinter() {
-
-        return new StringBuilder("* ")
-                .append(quantity)
-                .append(" " + name)
-                .append(isImported ? " importé" : "")
-                .append(" à " + htPrice + "€")
-                .append(" : " + ttcPrice + "€ TTC\n");
-
-    }
 
 }
