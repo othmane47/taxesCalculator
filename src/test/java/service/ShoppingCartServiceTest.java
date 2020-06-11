@@ -56,7 +56,7 @@ class ShoppingCartServiceTest {
         item1 = itemService.createItem(product1, 2);
         item2 = itemService.createItem(product2, 3);
         shoppingCart = ShoppingCart.builder()
-                .items(new ArrayList<>())
+                .itemList(new ArrayList<>())
                 .totalTaxes(BigDecimal.ZERO)
                 .totalPrices(BigDecimal.ZERO)
                 .build();
@@ -77,13 +77,13 @@ class ShoppingCartServiceTest {
     @Test
     public void shouldCreateShoppingCartWithList() {
         List<Item> items = Arrays.asList(item1, item2);
-        assertThat(shoppingCartService.creatShoppingCart(items).getItems().size()).isEqualTo(2);
+        assertThat(shoppingCartService.creatShoppingCart(items).getItemList().size()).isEqualTo(2);
     }
 
     @Test
     public void shouldAddItemToList() {
         shoppingCart.addItemToCart(item1);
-        assertThat(shoppingCart.getItems().size()).isEqualTo(1);
+        assertThat(shoppingCart.getItemList().size()).isEqualTo(1);
     }
 
 

@@ -54,7 +54,7 @@ class ItemServiceTest {
      * @throws IllegalQuantityException the illegal quantity exception
      */
     @Test
-    public void shouldCreateItem() throws IllegalPriceException, IllegalQuantityException {
+    public void shouldCreateItem() throws IllegalQuantityException {
         assertThat(itemService.createItem(product, 5)).isNotNull();
     }
 

@@ -26,7 +26,7 @@ public class ShoppingCartService {
         return ShoppingCart.builder()
                 .totalPrices(BigDecimal.ZERO)
                 .totalTaxes(BigDecimal.ZERO)
-                .items(new ArrayList<>())
+                .itemList(new ArrayList<>())
                 .build();
     }
 

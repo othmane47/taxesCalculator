@@ -16,7 +16,7 @@ import java.util.List;
 public class ShoppingCart {
     private BigDecimal totalPrices;
     private BigDecimal totalTaxes;
-    private List<Item> items;
+    private List<Item> itemList;
 
     /**
      * Add item to cart.
@@ -24,7 +24,7 @@ public class ShoppingCart {
      * @param item the item
      */
     public void addItemToCart(Item item) {
-        items.add(item);
+        itemList.add(item);
         this.totalTaxes = totalTaxes.add(item.getTaxes());
         this.totalPrices = totalPrices.add(item.getTtcPrice());
     }
@@ -35,7 +35,7 @@ public class ShoppingCart {
      * @param items the items
      */
     public void addItemsToCart(List<Item> items) {
-        this.items.addAll(items);
+        this.itemList.addAll(items);
         BigDecimal taxes = items.stream()
                 .map(Item::getTaxes)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -53,7 +53,7 @@ public class ShoppingCart {
      */
     public String invoicePrinter() {
         StringBuilder invoice = new StringBuilder("\n================ Invoice ================\n");
-        items.forEach(item -> invoice.append(item.itemPrinter()));
+        itemList.forEach(item -> invoice.append(item.itemPrinter()));
         invoice.append("\nMontant des taxes : " + totalTaxes + "€");
         invoice.append("\nTotal : " + totalPrices + "€");
         log.info(invoice.toString());

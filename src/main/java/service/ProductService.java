@@ -24,7 +24,7 @@ public class ProductService {
      * @throws IllegalPriceException    the illegal price exception
      * @throws IllegalQuantityException the illegal quantity exception
      */
-    public Product createProduct(CategoryEnum category, OriginEnum origin, BigDecimal htPrice, String name) throws IllegalPriceException, IllegalQuantityException {
+    public Product createProduct(CategoryEnum category, OriginEnum origin, BigDecimal htPrice, String name) throws IllegalPriceException {
         if (htPrice.compareTo(BigDecimal.ZERO) < 0)
             throw new IllegalPriceException();
 

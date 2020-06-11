@@ -35,12 +35,23 @@ class ProductServiceTest {
      * @throws IllegalPriceException the illegal price exception
      */
     @Test
-    public void shouldThrowPriceException() throws IllegalPriceException {
+    public void shouldThrowPriceException() {
         assertThatThrownBy(() -> productService.createProduct(CategoryEnum.FOOD, OriginEnum.LOCAL, BigDecimal.valueOf(-100), "chocolat"))
                 .isInstanceOf(IllegalPriceException.class)
                 .hasMessageContaining("Price should be higher than 0€");
     }
 
+    /**
+     * Should create product.
+     *
+     * @throws IllegalPriceException    the illegal price exception
+     * @throws IllegalQuantityException the illegal quantity exception
+     */
+    @Test
+    public void shouldCreateProduct() throws IllegalPriceException {
+        Product foodProduct = productService.createProduct(CategoryEnum.FOOD, OriginEnum.LOCAL, BigDecimal.valueOf(1), "chocolat");
+        assertThat(foodProduct).isNotNull();
+    }
 
     /**
      * Should get food tax.
